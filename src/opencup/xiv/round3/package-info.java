@@ -2,7 +2,7 @@
  * This package contains <i>GD-team</i> solutions (up-solvings) for the third round of Open Cup 2013 autumn-session.
  * <p/>
  * The whole schedule of 2013 autumn-session is here:
- * <a href="http://opencup.ru/index.cgi?data=oce/schedule&menu=index&head=index">Grand Prix of Southern Europe</a>.
+ * <a href="http://opencup.ru/index.cgi?data=oce/schedule&menu=index&head=index">Grand Prix of Siberia</a>.
  * <p/>
  *
  * To see actual status for the up-solvings please follow the google-document (access required):
