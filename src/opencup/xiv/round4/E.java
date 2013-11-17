@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-/**
- * @author pvasilyev
- * @since 17 Nov 2013
- */
 public class E {
 
     int[] tt = null;
@@ -46,13 +42,13 @@ public class E {
     private void solve() throws IOException {
         int n = readInt();
         int k = readInt();
-        if ( k > n / 2) {
+        if (k > n / 2) {
             writer.println("NIE");
             writer.flush();
             return;
         }
-        for (int i = n - k + 1; i <= n ; ++i) {
-            for (int j = i; j >= 1; j-=k) {
+        for (int i = n - k + 1; i <= n; ++i) {
+            for (int j = i; j >= 1; j -= k) {
                 writer.print(j + " ");
             }
         }

@@ -4,12 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
-/**
- * @author pvasilyev
- * @since 17 Nov 2013
- */
 public class I {
 
     private BufferedReader br;
@@ -48,16 +45,15 @@ public class I {
     private void solve() throws IOException {
         int n = nextInt();
         int k = nextInt();
-//        Map<Integer, List<Integer>> positions = new HashMap<>();
         int[][] positions = new int[1000 * 1000 + 1][];
         int[] sz = new int[1000 * 1000 + 1];
         int[] a = new int[n];
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             a[i] = nextInt();
             sz[a[i]]++;
         }
-        for(int i = 0; i < 1000 * 1000 + 1; i++) {
-            if(sz[i] > 0) {
+        for (int i = 0; i < 1000 * 1000 + 1; i++) {
+            if (sz[i] > 0) {
                 positions[i] = new int[sz[i]];
                 sz[i] = 0;
             }
@@ -65,36 +61,25 @@ public class I {
         int[] s = new int[n + 1];
         int[] prev = new int[n];
         Arrays.fill(prev, -1);
-        for(int i = n - 1; i >= 0; i--) {
-//            List<Integer> pos = positions.get(a[i]);
+        for (int i = n - 1; i >= 0; i--) {
             int[] pos = positions[a[i]];
-//            if(pos == null) {
-//                pos = new ArrayList<>();
-//                positions.put(a[i], pos);
-//            }
-//            pos.add(i);
             pos[sz[a[i]]++] = i;
-//            if(pos.size() >= k) {
-            if(sz[a[i]] >= k) {
-//                s[i] = Math.max(s[i + 1], s[pos.get(pos.size() - k) + 1] + 1);
-//                prev[i] = pos.get(pos.size() - k);
+            if (sz[a[i]] >= k) {
                 s[i] = Math.max(s[i + 1], s[pos[sz[a[i]] - k] + 1] + 1);
                 prev[i] = pos[sz[a[i]] - k];
-            }
-            else {
+            } else {
                 s[i] = s[i + 1];
-//                prev[i] = i + 1;
             }
         }
         out.println(s[0] * k);
         int[] ans = new int[s[0]];
         Arrays.fill(ans, Integer.MAX_VALUE);
-        for(int i = 0; i < n; i++) {
-            if(s[i] == 0) break;
+        for (int i = 0; i < n; i++) {
+            if (s[i] == 0) break;
             int si = s[0] - s[i];
             int r = 0;
-            for(int j = i; s[i] == s[j]; j++) {
-                if(prev[j] != -1 && a[j] < ans[si] && s[prev[j] + 1] >= s[i] - 1) {
+            for (int j = i; s[i] == s[j]; j++) {
+                if (prev[j] != -1 && a[j] < ans[si] && s[prev[j] + 1] >= s[i] - 1) {
                     ans[si] = a[j];
                     r = prev[j];
                     r = Math.max(r, j);
@@ -103,9 +88,8 @@ public class I {
             i = r;
         }
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < ans.length; i++) {
-            for(int j = 0; j < k; j++) {
-//                out.print(ans[i] + " ");
+        for (int i = 0; i < ans.length; i++) {
+            for (int j = 0; j < k; j++) {
                 sb.append(ans[i]);
                 sb.append(" ");
             }

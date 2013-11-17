@@ -1,15 +1,13 @@
-//package opencup.xiv.round4;
+package opencup.xiv.round4;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
-/**
- * @author pvasilyev
- * @since 17 Nov 2013
- */
 public class D {
 
     private BufferedReader br;
@@ -44,10 +42,14 @@ public class D {
     public double nextDouble() throws IOException {
         return Double.parseDouble(next());
     }
-    
 
-    int max(int x, int y) { return (((y-x)>>(32-1))&(x^y))^y; }
-    int min(int x, int y) { return (((y-x)>>(32-1))&(x^y))^x; }
+    int max(int x, int y) {
+        return (((y - x) >> (32 - 1)) & (x ^ y)) ^ y;
+    }
+
+    int min(int x, int y) {
+        return (((y - x) >> (32 - 1)) & (x ^ y)) ^ x;
+    }
 
     private void solve() throws IOException {
         final int OPEN = 10, CLOSE = 2;
@@ -59,7 +61,6 @@ public class D {
                 this.time = time;
                 this.n = n;
             }
-
 
             @Override
             public int compareTo(final Event o) {
@@ -90,26 +91,24 @@ public class D {
             while (j < e.length && e[i].time == e[j].time) {
                 Event event = e[j];
                 if (event.type == CLOSE) {
-//                    set.remove(event.n);
                     removed[event.n] = true;
                     actualSize--;
                 } else {
-//                    set.add(event.n);
                     oO[sO++] = event.n;
                     actualSize++;
                 }
                 j++;
             }
             if (actualSize == 1) {
-                while(removed[oO[sO - 1]]) sO--;
+                while (removed[oO[sO - 1]]) sO--;
                 int x = oO[sO - 1];
                 span[x] += e[j].time - e[i].time;
 
             }
             if (actualSize == 2) {
-                while(removed[oO[sO - 1]]) sO--;
+                while (removed[oO[sO - 1]]) sO--;
                 int a0 = oO[--sO];
-                while(removed[oO[sO - 1]]) sO--;
+                while (removed[oO[sO - 1]]) sO--;
                 oO[0] = oO[sO - 1];
                 oO[1] = a0;
                 sO = 2;
@@ -130,12 +129,11 @@ public class D {
             ans = max(t[i] + span[a1[i]] + span[a2[i]], ans);
         }
         PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for(int i = 0; i < n; i++) {
-            if(pq.size() < 2) {
+        for (int i = 0; i < n; i++) {
+            if (pq.size() < 2) {
                 pq.add(span[i]);
-            }
-            else {
-                if(pq.peek() < span[i]) {
+            } else {
+                if (pq.peek() < span[i]) {
                     pq.poll();
                     pq.add(span[i]);
                 }

@@ -5,10 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
-/**
- * @author pvasilyev
- * @since 17 Nov 2013
- */
 public class J {
 
     int[] tt = null;
@@ -46,7 +42,7 @@ public class J {
     private void fastSolve() throws IOException {
         int n = readInt();
         long ans = 0;
-        for(int i = 1; i <= n; i *= 2) {
+        for (int i = 1; i <= n; i *= 2) {
             ans += 1L * (i - 1) * i / 2;
             n -= i;
         }
