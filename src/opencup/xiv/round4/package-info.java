@@ -11,7 +11,8 @@
  * </a>
  * <p/>
  *
- * Problem set can be found here: TBD
+ * Problem set can be found here:
+ * <a href="http://opencup.ru/files/oce/gp4/problems-e.pdf">GP of Eastern Europe</a>
  *
  * @since 17 Nov 2013
  */
