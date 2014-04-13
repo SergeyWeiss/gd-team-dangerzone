@@ -1,7 +1,7 @@
 /**
  * This package contains <i>GD-team</i> solutions (up-solvings) for the first round of Open Cup 2013 autumn-session.
  * <p/>
- * The whole schedule of 2013 autumn-session is here:
+ * The whole schedule of 2013-2014 session is here:
  * <a href="http://opencup.ru/index.cgi?data=oce/schedule&menu=index&head=index">Grand Prix of SPb</a>.
  * <p/>
  *
