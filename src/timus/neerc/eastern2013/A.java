@@ -15,7 +15,6 @@ public class A {
     public A() throws IOException {
         br = new BufferedReader(new InputStreamReader(System.in));
         out = new PrintWriter(System.out);
-
     }
 
     public static void main(String[] args) throws IOException {
