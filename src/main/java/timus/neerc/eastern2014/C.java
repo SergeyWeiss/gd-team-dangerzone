@@ -4,9 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class C {
@@ -20,28 +17,32 @@ public class C {
         out = new PrintWriter(System.out);
     }
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException {
         new C().solve();
     }
 
-    class Event {
+    class Event<D extends Comparable<D>> {
         int amount;
-        Date date;
+        D date;
 
-        Event(int amount, Date date) {
+        Event(int amount, D date) {
             this.amount = amount;
             this.date = date;
         }
     }
 
-    private void solve() throws IOException, ParseException {
+    private String readDate() throws IOException {
+        String[] date = next().split("\\.");
+        return date[1] + date[0] + next();
+    }
+
+    private void solve() throws IOException {
         int n = nextInt();
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM hh:mm");
-        Event[] events = new Event[n];
+        List<Event<String>> events = new ArrayList<>();
         for(int i = 0; i < n; i++) {
             int amount = nextInt();
-            Date date = dateFormat.parse(next() + " " + next());
-            events[i] = new Event(amount, date);
+            String date = readDate();
+            events.add(new Event<>(amount, date));
         }
         List<Long> answer = calculateDebt(events);
         for (Long debt : answer) {
@@ -50,17 +51,30 @@ public class C {
         out.close();
     }
 
-    List<Long> calculateDebt(Event[] events) {
-        int n = events.length;
-        Date[] dates = new Date[n];
-        for(int i = 0; i < n; i++) {
-            dates[i] = events[i].date;
+    <D extends Comparable<D>> List<Long> naiveSolution(List<Event<D>> events) {
+        int n = events.size();
+        List<Event<D>> localCopy = new ArrayList<>(events);
+        List<Long> answer = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            Collections.sort(localCopy.subList(0, i + 1), new Comparator<Event<D>>() {
+                @Override
+                public int compare(Event<D> o1, Event<D> o2) {
+                    return o1.date.compareTo(o2.date);
+                }
+            });
+            long debt = 0;
+            long sum = 0;
+            for (int j = 0; j <= i; j++) {
+                sum += localCopy.get(j).amount;
+                debt = Math.min(debt, sum);
+            }
+            answer.add(debt);
         }
-        Arrays.sort(dates);
-        Map<Date, Integer> dateMap = new HashMap<>();
-        for(int i = 0; i < n; i++) {
-            dateMap.put(dates[i], i + 1);
-        }
+        return answer;
+    }
+
+    <D extends Comparable<D>> List<Long> calculateDebt(List<Event<D>> events) {
+        Map<D, Integer> dateMap = getDateMapping(events);
         class SegmentTree {
             int q = 128 << 10;
             long[] a = new long[2 * q];
@@ -90,11 +104,25 @@ public class C {
         }
         List<Long> answer = new ArrayList<>();
         SegmentTree segmentTree = new SegmentTree();
-        for (Event event : events) {
+        for (Event<D> event : events) {
             segmentTree.update(dateMap.get(event.date), segmentTree.q, event.amount);
             answer.add(segmentTree.a[1]);
         }
         return answer;
+    }
+
+    private <D extends Comparable<D>> Map<D, Integer> getDateMapping(List<Event<D>> events) {
+        int n = events.size();
+        List<D> dates = new ArrayList<>();
+        for (Event<D> event : events) {
+            dates.add(event.date);
+        }
+        Collections.sort(dates);
+        Map<D, Integer> dateMap = new HashMap<>();
+        for(int i = 0; i < n; i++) {
+            dateMap.put(dates.get(i), i + 1);
+        }
+        return dateMap;
     }
 
     public String next() throws IOException {
